@@ -170,9 +170,11 @@ async function main() {
       const qAt = pagePart.indexOf('?')
       const pathPart = qAt === -1 ? pagePart : pagePart.slice(0, qAt)
       const query = qAt === -1 ? '' : pagePart.slice(qAt + 1)
-      const url =
-        'file:///' + resolve(ROOT, pathPart).replace(/\\/g, '/') +
-        '?' + (query ? query + '&' : '') + 'preview=1' + frag
+      // __URL__ 表示直接截线上地址，而非本地文件
+      const base = pathPart === '__URL__'
+        ? 'https://fliceyuu.github.io/memorial-site/'
+        : 'file:///' + resolve(ROOT, pathPart).replace(/\\/g, '/')
+      const url = base + '?' + (query ? query + '&' : '') + 'preview=1' + frag
       const label = name.padEnd(12)
 
       try {

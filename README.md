@@ -13,9 +13,12 @@
 
 ## 在线预览
 
-部署到 GitHub Pages 后地址形如 `https://<用户名>.github.io/memorial-site/`。
-纯静态文件无需任何构建配置：仓库 **Settings → Pages → Deploy from a branch → `main` / `/ (root)`** 即可。
+**<https://fliceyuu.github.io/memorial-site/>**
 
+仓库：**<https://github.com/Fliceyuu/memorial-site>**
+
+纯静态文件无需任何构建配置，Pages 已按 **Deploy from a branch → `main` / `/ (root)`** 发布；
+Fork 之后同样只需在 Settings → Pages 里选一次 `main` / `/ (root)`。
 ---
 
 ## 一分钟上手
