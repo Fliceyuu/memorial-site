@@ -50,6 +50,10 @@ const MESSAGE = [
 if (existsSync(STAGE)) await rm(STAGE, { recursive: true, force: true })
 await mkdir(STAGE, { recursive: true })
 
+// Windows 上 path.join/posix.join 会给出反斜杠，必须手工拼成正斜杠，
+// 否则 'assets/css/theme.css' 会被当成单个文件名，整棵目录树都进不了提交。
+const joinRel = (prefix, name) => (prefix ? prefix + '/' + name : name)
+
 async function copyClean(dir, prefix) {
   for (const name of await readdir(dir)) {
     if (IGNORE_FILES.has(name)) continue
@@ -57,11 +61,11 @@ async function copyClean(dir, prefix) {
     const st = await stat(full)
     if (st.isDirectory()) {
       if (IGNORE_DIRS.has(name)) continue
-      await copyClean(full, posix.join(prefix, name))
+      await copyClean(full, joinRel(prefix, name))
       continue
     }
     if (!st.isFile()) continue
-    const rel = posix.join(prefix, name)
+    const rel = joinRel(prefix, name)
     const dest = join(STAGE, rel)
     await mkdir(dirname(dest), { recursive: true })
     const ext = name.includes('.') ? name.slice(name.lastIndexOf('.')) : ''
@@ -81,13 +85,23 @@ async function listFiles(dir, prefix, out) {
   for (const name of await readdir(dir)) {
     const full = join(dir, name)
     const st = await stat(full)
-    if (st.isDirectory()) await listFiles(full, posix.join(prefix, name), out)
-    else out.push(posix.join(prefix, name))
+    if (st.isDirectory()) await listFiles(full, joinRel(prefix, name), out)
+    else out.push(joinRel(prefix, name))
   }
   return out
 }
 const files = (await listFiles(STAGE, '', [])).sort()
-console.log('规范树：' + files.length + ' 个文件，' + (files.reduce((a, f) => a + 1, 0)) + ' 项')
+console.log('规范树：' + files.length + ' 个文件')
+if (files.some((f) => f.includes('\\'))) {
+  console.error('路径出现反斜杠，分组会出错：' + files.filter((f) => f.includes('\\')).join(', '))
+  process.exit(1)
+}
+const mustHave = ['index.html', 'person.html', 'assets/css/theme.css', 'assets/js/app.js', 'README.md']
+const missing = mustHave.filter((m) => !files.includes(m))
+if (missing.length) {
+  console.error('规范树缺少关键文件：' + missing.join(', '))
+  process.exit(1)
+}
 
 /* ---------------------------------------------------- 2. 冒烟测试 */
 console.log('\n在副本上跑冒烟测试…')
