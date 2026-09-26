@@ -211,6 +211,12 @@ for (const f of changed) {
 }
 for (const f of same) addFile(f.rel, f.sha)
 
+if (process.env.PUBLISH_DEBUG) {
+  console.log('\n[debug] 分组结果：')
+  for (const [dir, list] of entries) {
+    console.log('  [' + (dir === '' ? '(根)' : dir) + '] → ' + list.map((e) => e.path + '(' + e.type + ')').join(', '))
+  }
+}
 const dirPaths = Array.from(entries.keys()).filter((d) => d !== '').sort((a, b) => b.split('/').length - a.split('/').length)
 for (const dir of dirPaths) {
   const created = await api('POST', `/repos/${owner}/${repo}/git/trees`, { tree: entries.get(dir) }, [201])
@@ -220,7 +226,8 @@ for (const dir of dirPaths) {
   }
   const parts = dir.split('/')
   const name = parts.pop()
-  put(parts.join(''), { path: name, mode: '040000', type: 'tree', sha: created.json.sha })
+  // 父目录键必须用 '/' 拼接：写成 join('') 会把 assets/css 变成 assetscss，整棵子树丢失
+  put(parts.join('/'), { path: name, mode: '040000', type: 'tree', sha: created.json.sha })
 }
 
 const rootTree = await api('POST', `/repos/${owner}/${repo}/git/trees`, { tree: entries.get('') || [] }, [201])
