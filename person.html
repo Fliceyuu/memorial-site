@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>某人的一页 · 四人纪念</title>
+<meta name="description" content="一个人的一页：肖像、专属时间轴、影音收藏、私人歌单与留言。">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2308070a'/%3E%3Cpath d='M16 5l9 6v16H7V11z' fill='none' stroke='%23c3a05a' stroke-width='1.4'/%3E%3Cpath d='M16 9v18M12 14h8' stroke='%23c3a05a' stroke-width='1.2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body data-page="person" data-person="p1">
+
+<div class="lamp" aria-hidden="true"></div>
+<canvas class="dust" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="masthead">
+  <a class="brand" href="index.html" aria-label="回到四人拱廊">
+    <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 3.5l10 6.6V28H6V10.1z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M16 8v20M11 13.5h10M11 22.5h10" stroke="currentColor" stroke-width="1" opacity=".8"/>
+      <circle cx="16" cy="18" r="2.6" fill="none" stroke="currentColor" stroke-width="1.1"/>
+    </svg>
+    <span class="brand__txt">
+      <span class="brand__cn" data-text="site.title">四人纪念</span>
+      <span class="brand__en" data-text="site.titleEn">In Memoriam Quattuor</span>
+    </span>
+  </a>
+
+  <nav class="nav" aria-label="本页导航">
+    <a href="#who">其人</a>
+    <a href="#timeline">时间轴</a>
+    <a href="#gallery">影音</a>
+    <a href="#records">唱片</a>
+    <a href="#letters">留言</a>
+    <a href="index.html">四人拱廊</a>
+    <span class="nav__tools">
+      <button class="icon-btn" type="button" data-ambient aria-label="管风琴氛围音（开关）"></button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="明暗主题"></button>
+      <button class="icon-btn" type="button" data-edit-toggle aria-label="进入编辑模式"></button>
+    </span>
+  </nav>
+  <button class="icon-btn nav__toggle" type="button" data-nav-toggle aria-label="展开导航"></button>
+</header>
+
+<main id="top">
+
+  <!-- ── 人物首屏 ────────────────────────────────────────────────── -->
+  <section class="profile" id="who">
+    <div class="profile__bg" data-profile-bg aria-hidden="true"></div>
+
+    <div class="profile__grid">
+      <div class="profile__portrait arch framed" data-portrait="p1" role="img" aria-label="肖像位">
+        <span class="corner tr"></span><span class="corner bl"></span>
+        <div class="arch__media photo-filter" data-portrait-media>
+          <div class="arch__empty" data-portrait-hint>
+            <div>
+              <div class="mono">Portrait <span data-text="people.p1.sigil">I</span></div>
+              <strong class="inscription" style="font-size:1.15rem;display:block;margin:.5rem 0">此处留给你的照片</strong>
+              <small class="mono">解锁编辑后点它即可换上</small>
+            </div>
+          </div>
+        </div>
+        <div class="card__veil"></div>
+      </div>
+
+      <div class="profile__info">
+        <p class="eyebrow">Portrait <span data-text="people.p1.sigil">I</span> · <span data-text="people.p1.nameEn">Chen</span></p>
+
+        <h1 class="display display--xl display--gold" data-edit="people.p1.name" data-single>阿尘</h1>
+
+        <div class="profile__meta">
+          <span class="chip chip--gold" data-text="people.p1.dates">1999 — 2017</span>
+          <span class="chip" data-edit="people.p1.epithet" data-single>我们的锚</span>
+        </div>
+
+        <p class="profile__quote" data-edit="people.p1.quote">我不擅长说想念，只擅长等你们回来。</p>
+
+        <p class="profile__words" data-edit="people.p1.words">我们四个里，你最先学会把话说轻。</p>
+
+        <div class="profile__stats">
+          <div class="stat"><span class="stat__n" data-count-of="timeline">0</span><span class="stat__k">Moments</span></div>
+          <div class="stat"><span class="stat__n" data-count-of="media">0</span><span class="stat__k">Plates</span></div>
+          <div class="stat"><span class="stat__n" data-count-of="notes">0</span><span class="stat__k">Letters</span></div>
+          <div class="stat"><span class="stat__n" data-count-of="flowers">0</span><span class="stat__k">Flowers</span></div>
+        </div>
+
+        <div class="profile__actions" style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem">
+          <button class="btn btn--ghost btn--sm" type="button" data-portrait-edit="p1">更换肖像</button>
+          <a class="btn btn--ghost btn--sm" href="#letters">写一封信</a>
+        </div>
+
+        <p class="mono" style="margin-top:.6rem" data-text="people.p1.verse">记住风，记住天台风大。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 私人时间轴 ──────────────────────────────────────────────── -->
+  <section class="section" id="timeline">
+    <div class="wrap">
+      <div class="section__head section__head--left reveal">
+        <p class="eyebrow">Their Own Chronicle</p>
+        <h2 class="display display--lg display--gold">关 于 <span data-text="people.p1.name">阿尘</span> 的 时 刻</h2>
+        <div class="rule-diamond" style="width:100%;max-width:420px" aria-hidden="true">
+          <span class="d"></span><span class="l"></span><span class="d"></span>
+        </div>
+      </div>
+
+      <div class="tracker" data-tracker>
+        <span class="tracker-bar" data-tracker-fill aria-hidden="true"></span>
+        <div class="tracker__list" data-timeline></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 影音收藏 ────────────────────────────────────────────────── -->
+  <section class="section" id="gallery">
+    <div class="wrap wrap--wide">
+      <div class="section__head reveal">
+        <p class="eyebrow">Plates Kept for <span data-text="people.p1.nameEn">Chen</span></p>
+        <h2 class="display display--lg display--gold">留 给 <span data-text="people.p1.name">阿尘</span> 的 影 像</h2>
+        <div class="fleuron" aria-hidden="true">❧</div>
+        <p class="lead" style="max-width:46ch">照片、视频、录下的声音，都可以放进这一格。墙上的每一格都点得开。</p>
+      </div>
+
+      <div class="wall-bar reveal">
+        <span class="chip chip--gold"><span data-count-of="media">0</span> 件已收藏</span>
+        <span class="mono">仅保存在本机浏览器 · 不会上传</span>
+        <span class="spacer"></span>
+        <button class="btn btn--sm" type="button" data-wall-upload>上传影像</button>
+      </div>
+
+      <div class="wall" data-wall></div>
+    </div>
+  </section>
+
+  <!-- ── 唱片机与私人歌单 ────────────────────────────────────────── -->
+  <section class="section" id="records">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Records &amp; Voice</p>
+        <h2 class="display display--lg display--gold">唱 片 与 声 音</h2>
+        <div class="fleuron" aria-hidden="true">♪</div>
+        <p class="lead" style="max-width:46ch">把属于这个人的歌放上来。唱片会随着音乐转起来；页面右下角还有一盏管风琴，可以当作背景。</p>
+      </div>
+
+      <div class="records">
+        <div class="deck framed reveal" data-deck>
+          <span class="corner tr"></span><span class="corner bl"></span>
+          <div class="disc" data-disc aria-hidden="true"></div>
+          <div class="deck__info">
+            <span class="deck__sub" data-deck-sub>Private Records</span>
+            <span class="deck__now" data-deck-name>还没有音轨</span>
+            <div class="deck__controls">
+              <button class="icon-btn" type="button" data-deck-prev aria-label="上一首">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5v13M18 6l-8 6 8 6z" fill="currentColor" stroke="none"/></svg>
+              </button>
+              <button class="icon-btn" type="button" data-deck-toggle aria-label="播放">
+                <svg class="ico ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></svg>
+                <svg class="ico ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5h3v13H9zM13.5 5.5h3v13h-3z" fill="currentColor" stroke="none"/></svg>
+              </button>
+              <button class="icon-btn" type="button" data-deck-next aria-label="下一首">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5.5v13M6 6l8 6-8 6z" fill="currentColor" stroke="none"/></svg>
+              </button>
+            </div>
+            <div class="deck__controls">
+              <span class="deck__time" data-time-cur>0:00</span>
+              <div class="seek" data-seek role="slider" aria-label="播放进度" tabindex="0">
+                <span class="seek__fill" data-seek-fill></span>
+                <span class="seek__knob" data-seek-knob></span>
+              </div>
+              <span class="deck__time" data-time-dur>0:00</span>
+            </div>
+            <div class="deck__controls">
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10h3l4-3.5v11L8 14H5zM15.5 9.5a4 4 0 0 1 0 5M18 7.5a7 7 0 0 1 0 9" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg>
+              <input class="volume" type="range" min="0" max="1" step="0.01" value="0.8" data-deck-vol aria-label="音量">
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <p class="eyebrow" style="margin-bottom:.6rem">Playlist</p>
+          <ul class="playlist" data-playlist></ul>
+          <p class="mono" style="margin-top:1rem">支持 mp3 / wav / m4a / ogg 等浏览器可播放的格式</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 留言 ────────────────────────────────────────────────────── -->
+  <section class="section" id="letters">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Letters to <span data-text="people.p1.nameEn">Chen</span></p>
+        <h2 class="display display--lg display--gold">写 给 <span data-text="people.p1.name">阿尘</span></h2>
+        <div class="fleuron" aria-hidden="true">❦</div>
+      </div>
+
+      <div class="board">
+        <div class="notes" data-notes></div>
+
+        <aside class="plate framed reveal">
+          <span class="corner tr"></span><span class="corner bl"></span>
+          <form class="letter-form" data-letter-form autocomplete="off">
+            <input type="hidden" name="to" value="p1">
+            <div class="field">
+              <label for="who">署名</label>
+              <input id="who" name="who" type="text" maxlength="24" placeholder="可以匿名">
+            </div>
+            <div class="field">
+              <label for="what">信文</label>
+              <textarea id="what" name="what" maxlength="600" placeholder="对这个人说一句一直没说的话……"></textarea>
+            </div>
+            <div class="letter-form__foot">
+              <button class="btn btn--solid" type="submit">寄 出</button>
+              <span class="counter" data-counter>0 / 600</span>
+            </div>
+          </form>
+          <p class="mono" style="margin-top:1.2rem">共 <span data-count-of="flowers">0</span> 朵花被献在这些人名下</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 其余三人 ────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="wrap wrap--wide">
+      <div class="section__head reveal">
+        <p class="eyebrow">The Other Three</p>
+        <h2 class="display display--md">其 余 三 人</h2>
+      </div>
+      <div class="strip reveal" data-strip></div>
+
+      <nav class="pager" data-pager aria-label="翻阅其他三人"></nav>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p class="footer__verse" data-text="site.footerVerse">凡我们记得的，都不会真正离去。</p>
+    <div class="footer__links">
+      <a href="index.html">四人拱廊</a>
+      <a href="index.html#timeline">共同时间轴</a>
+      <a href="index.html#letters">公共留言板</a>
+      <button class="icon-btn" type="button" data-ambient aria-label="管风琴氛围音（开关）"></button>
+      <button class="icon-btn" type="button" data-edit-toggle aria-label="编辑模式"></button>
+    </div>
+    <p class="footer__fine"><span data-text="site.title">四人纪念</span> · <span data-text="site.titleEn">In Memoriam Quattuor</span></p>
+  </div>
+</footer>
+
+<button class="icon-btn to-top" type="button" data-to-top aria-label="回到页首"></button>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/media.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

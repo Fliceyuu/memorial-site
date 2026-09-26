@@ -1,0 +1,24 @@
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Node（tools/ 里的脚本不需要依赖，这里只是保险）
+node_modules/
+npm-debug.log*
+pnpm-lock.yaml
+package-lock.json
+
+# 本地截图产物：由 tools/capture.mjs 生成，不必入库
+preview/
+
+# 本机生成的站点预览快照
+*.local.html
+
+# ���� GitHub ��Ȩ��������⣩
+.github-auth.json
+.github-token.json
+
