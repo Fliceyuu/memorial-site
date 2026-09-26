@@ -23,6 +23,8 @@ const argv = Object.fromEntries(
 )
 const WHICH = argv.page === 'person' ? 'person' : 'home'
 const PID = argv.id || 'p1'
+// 视口宽度可覆盖：--width=390 模拟手机
+const VIEWPORT = { w: parseInt(argv.width || '1440', 10), h: parseInt(argv.height || '900', 10) }
 
 const problems = []
 const notes = []
@@ -136,7 +138,7 @@ class El {
   querySelectorAll(sel) { return descendants(this).filter((el) => matches(el, sel)) }
   matches(sel) { return matches(this, sel) }
   closest(sel) { let cur = this; while (cur) { if (matches(cur, sel)) return cur; cur = cur.parentElement } return null }
-  getBoundingClientRect() { return { top: 10, left: 10, width: 800, height: 600, bottom: 610, right: 810 } }
+  getBoundingClientRect() { return { top: 10, left: 10, width: VIEWPORT.w, height: VIEWPORT.h, bottom: VIEWPORT.h + 10, right: VIEWPORT.w + 10 } }
   getContext() {
     return {
       canvas: this,
@@ -271,8 +273,8 @@ const sandbox = {
   navigator: { userAgent: 'node' },
   performance: { now: () => Date.now() },
   devicePixelRatio: 1,
-  innerWidth: 1440,
-  innerHeight: 900,
+  innerWidth: VIEWPORT.w,
+  innerHeight: VIEWPORT.h,
   scrollY: 0,
   scrollTo: () => {},
   AudioContext: undefined,

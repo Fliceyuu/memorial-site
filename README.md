@@ -63,11 +63,17 @@ memorial-site/
 │  ├─ js/media.js             IndexedDB 媒体库 + 唱片机 + 氛围音合成
 │  └─ js/app.js               渲染与全部交互
 ├─ tools/                     Node 小工具，非站点运行所需
-│  ├─ fetch-fonts.mjs         重新下载并内联谷歌字体（需联网）
-│  ├─ smoke.mjs               无浏览器冒烟测试
+│  ├─ smoke.mjs               无浏览器冒烟测试（改完代码先跑它）
 │  ├─ capture.mjs             DevTools 协议确定性截图（需本机 Chromium 内核浏览器）
-│  └─ patch.mjs               字面替换小工具
-├─ LICENSE                    MIT（适用于代码）
+│  ├─ fetch-fonts.mjs         重新下载并内联谷歌字体（需联网）
+│  ├─ publish.mjs             干净树 → 冒烟测试 → API 推送 → 根树自检
+│  ├─ github-verify.mjs       逐字节核对远端与本地发布树
+│  ├─ github-auth.mjs         GitHub 设备码授权
+│  ├─ github-publish.mjs      建仓库 / topics / 开启 Pages
+│  ├─ github-squash.mjs       把多次提交压缩成一次干净的初始提交
+│  ├─ github-sync.mjs         把远端变更同步回本地（含 .git 对象）
+│  ├─ pages-status.mjs        查看/触发 Pages 构建并轮询上线状态
+│  └─ patch.mjs               字面替换小工具├─ LICENSE                    MIT（适用于代码）
 └─ LICENSE-CONTENT.md         CC BY 4.0（适用于文案、示例内容与纹样）
 ```
 
