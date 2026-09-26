@@ -15,14 +15,13 @@ package-lock.json
 # 本地截图产物：由 tools/capture.mjs 生成，不必入库
 preview/
 
-# 本机生成的站点预览快照
-*.local.html
-
-# ���� GitHub ��Ȩ��������⣩
-.github-auth.json
-.github-token.json
-
-
-# �ɾ������õ���ʱ��
+# 干净发布用的临时树（tools/publish.mjs 生成）
 .publish/
 
+# 本机 GitHub 授权凭据：绝不入库
+.github-auth.json
+.github-token.json
+.git-askpass.sh
+
+# 本机生成的站点预览快照
+*.local.html

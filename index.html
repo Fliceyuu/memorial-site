@@ -353,20 +353,23 @@
           <p class="eyebrow" style="text-align:center">Write a Letter</p>
           <h3 class="display display--md" style="text-align:center;margin:.5rem 0 1.2rem">留 一 封 信</h3>
           <form class="letter-form" data-letter-form autocomplete="off">
-            <div class="field__row">
-              <div class="field">
-                <label for="who">署名</label>
-                <input id="who" name="who" type="text" maxlength="24" placeholder="可以匿名">
-              </div>
-              <div class="field">
-                <label for="to">写给</label>
+            <div class="field">
+              <label for="who">署名</label>
+              <input id="who" name="who" type="text" maxlength="24" placeholder="可以匿名">
+            </div>
+
+            <div class="field">
+              <label for="to">写给</label>
+              <div class="picker" data-letter-picker>
                 <select id="to" name="to">
                   <option value="">所有人</option>
-                  <option value="p1">阿尘</option>
-                  <option value="p2">阿屿</option>
-                  <option value="p3">小满</option>
-                  <option value="p4">鹿野</option>
                 </select>
+                <span class="picker__caret" aria-hidden="true">
+                  <svg class="ico" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="picker__custom" data-letter-custom hidden>
+                <input id="toCustom" name="toCustom" type="text" maxlength="20" placeholder="写下这个称呼：老同学 / 外婆 / 那年的同桌…">
               </div>
             </div>
             <div class="field">

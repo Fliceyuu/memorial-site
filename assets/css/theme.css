@@ -50,6 +50,8 @@
   --f-body: 'Cormorant Garamond', 'EB Garamond', Garamond, 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Songti SC', 'STSong', 'Source Han Serif SC', 'Noto Serif SC', 'SimSun', serif;
   --f-script: 'Cormorant Garamond', 'Snell Roundhand', 'Segoe Script', 'Palatino Linotype', cursive, serif;
   --f-ui: ui-sans-serif, system-ui, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* 表单小标签：瘦衬线 + 大字距，比无衬线更贴哥特气质 */
+  --f-serif-label: 'Cormorant Garamond', 'EB Garamond', Garamond, 'Palatino Linotype', 'Songti SC', serif;
   --f-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
 
   /* 节奏 */

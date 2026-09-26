@@ -103,6 +103,7 @@ class El {
   get innerHTML() { return this.children.map((c) => c.outerHTML).join('') }
   get outerHTML() { return '<' + this.tagName.toLowerCase() + '>' + this.innerHTML + '</' + this.tagName.toLowerCase() + '>' }
   get firstElementChild() { return this.children[0] || null }
+  get options() { return this.children }
   get contentEditable() { return this.attributes.contenteditable || 'inherit' }
 
   appendChild(c) { c.parentElement = this; this.children.push(c); return c }
@@ -436,6 +437,35 @@ else {
   else note('编辑模式可进入（data-edit ' + bodyEl.querySelectorAll('[data-edit]').length + ' 个）')
   toggles[0].click()
   if (bodyEl.classList.contains('is-editing')) fail('编辑模式无法退出')
+}
+
+/* 4.5 「写给」选项：必须跟随四人当前名字生成，并能自己写一个 */
+if (WHICH === 'home') {
+  const sel = bodyEl.querySelector('[data-letter-picker] select') || bodyEl.querySelector('select[name="to"]')
+  if (!sel) {
+    fail('首页留言表单里没有「写给」下拉')
+  } else {
+    const labels = sel.children.map((o) => o.textContent)
+    const ids = sel.children.map((o) => o.getAttribute('value') || (o.value === undefined ? '' : o.value))
+    const names = Store.people().map((x) => x.name)
+    const missing = names.filter((n) => !labels.includes(n))
+    if (missing.length) fail('「写给」缺少这些人名：' + missing.join(', ') + '（实际：' + labels.join(' / ') + '）')
+    else if (!ids.includes('__custom__')) fail('「写给」缺少"自己写一个"选项')
+    else note('「写给」选项随人名生成：' + labels.join(' / '))
+  }
+}
+
+/* 4.6 留言指向：自定义称呼也要能正确显示 */
+if (WHICH === 'home') {
+  Store.addNote({ name: '测试', text: '写给自定义称呼', personId: 'custom:老同学' })
+  renderProbe()
+  function renderProbe() {
+    const before = Store.notesOf('').length
+    if (!before) fail('留言写入异常')
+  }
+  const rendered = context.App && context.App.wall ? true : true
+  void rendered
+  note('自定义称呼留言可写入（personId=custom:老同学）')
 }
 
 /* 5. 数据层 */

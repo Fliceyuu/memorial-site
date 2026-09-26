@@ -519,6 +519,8 @@ body.is-editing .tile__tools { display: flex; }
 
 /* ------------------------------------------------------------ 留言板 */
 .board { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(1.4rem, 3.6vw, 3rem); align-items: start; }
+.board > .plate { position: sticky; top: 5.4rem; }
+@media (max-width: 1080px) { .board > .plate { position: static; } }
 .notes { columns: 2; column-gap: clamp(0.8rem, 1.8vw, 1.2rem); }
 .note {
   position: relative;
@@ -567,29 +569,70 @@ body.is-editing .tile__tools { display: flex; }
 body.is-editing .note__del { display: inline-flex; }
 .note--form { background: linear-gradient(180deg, #171320, #0f0c14); }
 
-.letter-form { display: flex; flex-direction: column; gap: 0.9rem; }
-.field { display: flex; flex-direction: column; gap: 0.4rem; }
-.field > label { font-family: var(--f-ui); font-size: 0.56rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
+/* 留言表单：字距放松、下拉换成 shell 风格、自定义称呼单独一行 */
+.letter-form { display: flex; flex-direction: column; gap: 1.15rem; }
+.field { display: flex; flex-direction: column; gap: 0.5rem; }
+.field > label {
+  font-family: var(--f-serif-label);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
 .field input[type='text'],
 .field textarea,
 .field select {
   width: 100%;
-  padding: 0.72rem 0.85rem;
-  background: rgba(8, 7, 10, 0.66);
+  padding: 0.68rem 0.9rem;
+  background: rgba(8, 7, 10, 0.68);
   border: var(--hair) solid var(--edge);
   border-radius: 2px;
   font-family: var(--f-body);
   font-size: 0.98rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
   transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
 }
 [data-theme='light'] .field input[type='text'],
 [data-theme='light'] .field textarea,
 [data-theme='light'] .field select { background: rgba(255, 253, 245, 0.8); }
-.field textarea { min-height: 8.5rem; resize: vertical; line-height: 1.8; }
-.field input:focus,
+.field textarea { min-height: clamp(9rem, 18vh, 13rem); resize: vertical; }
+.field input[type='text']:focus,
 .field textarea:focus,
-.field select:focus { outline: none; border-color: var(--edge-strong); background: rgba(8, 7, 10, 0.85); }
-.field__row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.field select:focus { outline: none; border-color: var(--edge-strong); background: rgba(8, 7, 10, 0.86); }
+.field__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.15rem; }
+
+/* 下拉：自绘箭头，去掉系统样式 */
+.picker { position: relative; display: block; }
+.picker select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 2.4rem;
+  color: var(--ivory);
+  background-image: linear-gradient(180deg, rgba(195, 160, 90, 0.05), transparent);
+}
+.picker select option { background: #12101a; color: var(--ivory); }
+[data-theme='light'] .picker select option { background: #f6efdd; color: #241d16; }
+.picker__caret {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--gold);
+  opacity: 0.8;
+  display: grid;
+  place-items: center;
+}
+.picker__caret .ico { width: 1rem; height: 1rem; }
+.picker__custom { margin-top: 0.6rem; animation: fade 0.35s var(--ease); }
+.picker__custom[hidden] { display: none; }
+.picker__custom input {
+  border-style: dashed !important;
+  border-color: var(--edge-strong) !important;
+  background: rgba(195, 160, 90, 0.06) !important;
+}
 .letter-form__foot { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .counter { font-family: var(--f-mono); font-size: 0.66rem; color: var(--ivory-faint); margin-left: auto; }
 
@@ -775,7 +818,7 @@ body.is-editing [data-edit]:hover { outline-color: var(--gold-bright); backgroun
 body.is-editing [data-edit]:focus { outline: 1px solid var(--gold-bright); background: rgba(195, 160, 90, 0.07); }
 
 /* ------------------------------------------------------------------ 提示 */
-.toasts { position: fixed; left: 50%; bottom: 5.4rem; transform: translateX(-50%); z-index: 100; display: flex; flex-direction: column; gap: 0.5rem; align-items: center; pointer-events: none; }
+.toasts { position: fixed; top: 4.4rem; right: clamp(0.7rem, 2vw, 1.4rem); z-index: 100; display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; pointer-events: none; max-width: min(88vw, 340px); }
 .toast {
   padding: 0.6rem 1.1rem;
   background: rgba(14, 12, 18, 0.94);

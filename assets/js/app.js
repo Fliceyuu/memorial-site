@@ -488,6 +488,17 @@
   }
 
   /* --------------------------------------------------------- 留言与献花 */
+  /* 留言写给谁：支持四个人物 id，以及自定义称呼 custom:名字 */
+  function noteTargetLabel(personId) {
+    if (!personId) return '';
+    if (personId.indexOf('custom:') === 0) {
+      const name = personId.slice(7).trim();
+      return name ? '写给 ' + name : '';
+    }
+    const p = S.person(personId);
+    return p ? '写给 ' + p.name : '';
+  }
+
   function renderNotes(sel, scopePerson) {
     const box = $(sel);
     if (!box) return;
@@ -502,7 +513,7 @@
       el.className = 'note reveal';
       el.dataset.id = n.id;
       el.style.setProperty('--tilt', hashTilt(n.id + n.name) + 'deg');
-      const to = n.personId && S.person(n.personId) ? '写给 ' + S.person(n.personId).name : '';
+      const to = noteTargetLabel(n.personId);
       el.innerHTML =
         '<div class="note__head"><span class="note__who">' + esc(n.name || '匿名') + '</span>' + (to ? '<span class="note__to">' + esc(to) + '</span>' : '') + '</div>' +
         '<p class="note__body">' + esc(n.text || '') + '</p>' +
@@ -645,10 +656,15 @@
     addTrack() {
       const input = document.createElement('input');
       input.type = 'file';
-      input.accept = 'audio/*';
+      // 只收 mp3：其它格式各浏览器支持不一，统一最省事
+      input.accept = 'audio/mpeg,.mp3';
       input.addEventListener('change', async () => {
         const file = input.files && input.files[0];
         if (!file) return;
+        if (!/\.mp3$/i.test(file.name) && file.type !== 'audio/mpeg') {
+          toast('请选择 mp3 文件（其它格式浏览器支持不一）', 'warn');
+          return;
+        }
         const kind = 'audio';
         let src = '';
         let fileId = '';
@@ -1128,6 +1144,50 @@
     if (form) {
       const text = $('textarea', form);
       const counter = $('[data-counter]', form);
+
+      // 「写给」：选项跟随四人当前的名字生成，末尾另加「自己写一个…」
+      const picker = $('[data-letter-picker]', form);
+      const select = picker ? $('select', picker) : $('[data-letter-target]', form);
+      const customWrap = $('[data-letter-custom]', form);
+      const customInput = $('[name="toCustom"]', form);
+      const isSelect = !!(select && select.tagName === 'SELECT');
+
+      const syncCustom = () => {
+        if (!isSelect || !customWrap) return;
+        const isCustom = select.value === '__custom__';
+        customWrap.hidden = !isCustom;
+        if (isCustom && customInput) customInput.focus();
+      };
+
+      const syncPicker = () => {
+        if (!isSelect) return;
+        const keep = select.value;
+        select.innerHTML = '';
+        const all = document.createElement('option');
+        all.value = '';
+        all.textContent = '所有人';
+        select.appendChild(all);
+        S.people().forEach((p) => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = p.name || p.id;
+          select.appendChild(opt);
+        });
+        const other = document.createElement('option');
+        other.value = '__custom__';
+        other.textContent = '自己写一个…';
+        select.appendChild(other);
+        const opts = select.options ? Array.prototype.slice.call(select.options) : select.children;
+        select.value = opts.some((o) => o.getAttribute('value') === keep) ? keep : '';
+        syncCustom();
+      };
+
+      if (isSelect) {
+        select.addEventListener('change', syncCustom);
+        syncPicker();
+        if (isPersonPage) select.value = personId; // 人物页默认写给这个人
+      }
+
       const sync = () => {
         if (counter) counter.textContent = (text.value || '').length + ' / 600';
       };
@@ -1135,23 +1195,28 @@
         text.addEventListener('input', sync);
         sync();
       }
+
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = ($('[name="who"]', form).value || '').trim() || '匿名';
-        const text2 = ($('[name="what"]', form).value || '').trim();
-        const to = $('[name="to"]', form).value || '';
-        if (!text2) {
+        const body = ($('[name="what"]', form).value || '').trim();
+        if (!body) {
           toast('写点什么再寄出去吧', 'warn');
           return;
         }
-        S.addNote({ name, text: text2.slice(0, 600), personId: to });
+        let to = select ? select.value : '';
+        if (to === '__custom__') {
+          const custom = ((customInput && customInput.value) || '').trim();
+          to = custom ? 'custom:' + custom.slice(0, 20) : '';
+        }
+        S.addNote({ name, text: body.slice(0, 600), personId: to });
         form.reset();
+        if (customWrap) customWrap.hidden = true;
+        syncPicker();
         sync();
         renderNotes('[data-notes]', isPersonPage ? personId : '');
         const list = $('[data-notes]');
-        if (list && list.firstElementChild) {
-          list.firstElementChild.classList.add('is-in');
-        }
+        if (list && list.firstElementChild) list.firstElementChild.classList.add('is-in');
         toast('留言已留下，它会一直在这里');
       });
     }
